@@ -1,6 +1,8 @@
+
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 
+// GET — List all tasks
 export async function GET(request) {
   try {
     const url = new URL(request.url);
@@ -29,13 +31,15 @@ export async function GET(request) {
     const order = sort === "oldest" ? "ASC" : "DESC";
     const sql = `SELECT * FROM tasks ${where} ORDER BY id ${order}`;
 
-    const rows = await query(sql, params);
+    const [rows] = await query(sql, params);
     return NextResponse.json({ tasks: rows });
   } catch (err) {
+    console.error("GET /tasks error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
+// POST — Add a new task
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -50,17 +54,15 @@ export async function POST(request) {
       return NextResponse.json({ error: "Title is required" }, { status: 400 });
     }
 
-    const result = await query(
+    const [result] = await query(
       "INSERT INTO tasks (title, description, status, priority) VALUES (?, ?, ?, ?)",
       [title, description, status, priority]
     );
 
-    const rows = await query("SELECT * FROM tasks WHERE id = ?", [
-      result.insertId,
-    ]);
-
+    const [rows] = await query("SELECT * FROM tasks WHERE id = ?", [result.insertId]);
     return NextResponse.json({ task: rows[0] }, { status: 201 });
   } catch (err) {
+    console.error("POST /tasks error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-export default function TaskForm({ onAdd }) {
+export default function TaskForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("Medium");
@@ -19,11 +19,14 @@ export default function TaskForm({ onAdd }) {
 
       if (!res.ok) throw new Error("Failed to add task");
 
+      // Reset form
       setTitle("");
       setDescription("");
       setPriority("Medium");
 
-      if (onAdd) onAdd();
+      // Autom TaskList to reload
+      window.dispatchEvent(new CustomEvent("reloadTasks"));
+
     } catch (err) {
       console.error(err);
       alert("Something went wrong while adding the task!");
@@ -54,7 +57,7 @@ export default function TaskForm({ onAdd }) {
         className="flex-1 bg-transparent border border-white/30 text-white placeholder:text-white/60 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/40 transition"
       />
 
-      {/* Priority (inline label without breaking layout) */}
+      {/* Priority */}
       <div className="relative">
         <label className="absolute -top-2 left-2 text-xs text-white/60 bg-black/50 px-1 rounded">
           Priority
