@@ -1,4 +1,4 @@
-import mysql from 'mysql2/promise'
+/*import mysql from 'mysql2/promise'
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST || '127.0.0.1',
@@ -16,3 +16,21 @@ export async function query(sql, params) {
 }
 
 export default pool
+*/
+
+import mysql from 'mysql2/promise';
+
+let pool;
+
+if (!global.pool) {
+  global.pool = mysql.createPool(process.env.DATABASE_URL);
+}
+
+pool = global.pool;
+
+export async function query(sql, params) {
+  const [rows] = await pool.execute(sql, params);
+  return rows;
+}
+
+export default pool;
