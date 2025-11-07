@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 
-// PUT — Update a task by ID
 export async function PUT(request, context) {
   try {
-    
-    const { id } = await context.params;
-    console.log("PUT /api/tasks/[id] id:", id);
+    const { id } = context.params;
 
     if (!id) {
       return NextResponse.json({ error: "Missing task ID" }, { status: 400 });
@@ -24,26 +21,22 @@ export async function PUT(request, context) {
       [title, description || "", status || "Pending", priority || "Medium", id]
     );
 
-    const [rows] = await query("SELECT * FROM tasks WHERE id = ?", [id]);
+    const rows = await query("SELECT * FROM tasks WHERE id = ?", [id]);
     return NextResponse.json({ task: rows[0] });
   } catch (err) {
-    console.error("PUT /api/tasks/[id] error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-// DELETE — Remove a task by ID
 export async function DELETE(request, context) {
   try {
-    
-    const { id } = await context.params;
-    console.log("DELETE /api/tasks/[id] id:", id);
+    const { id } = context.params;
 
     if (!id) {
       return NextResponse.json({ error: "Missing task ID" }, { status: 400 });
     }
 
-    const [result] = await query("DELETE FROM tasks WHERE id = ?", [id]);
+    const result = await query("DELETE FROM tasks WHERE id = ?", [id]);
 
     if (result.affectedRows === 0) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
@@ -51,7 +44,6 @@ export async function DELETE(request, context) {
 
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error("DELETE /api/tasks/[id] error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
