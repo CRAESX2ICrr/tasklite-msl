@@ -61,7 +61,9 @@ export async function POST(request) {
 
     const [rows] = await query("SELECT * FROM tasks WHERE id = ?", [result.insertId]);
     return NextResponse.json({ task: rows[0] }, { status: 201 });
-  } catch (err) {
+  } 
+  
+  catch (err) {
     console.error("POST /tasks error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

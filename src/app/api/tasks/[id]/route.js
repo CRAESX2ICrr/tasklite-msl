@@ -26,7 +26,9 @@ export async function PUT(request, context) {
 
     const [rows] = await query("SELECT * FROM tasks WHERE id = ?", [id]);
     return NextResponse.json({ task: rows[0] });
-  } catch (err) {
+  } 
+  
+  catch (err) {
     console.error("PUT /api/tasks/[id] error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
             particleCount={200}
             particleSpread={10}
             speed={0.15}
-            particleColors={["#FFFFFF", "#A0E9FF", "#FFB4A2"]} // soft white + blue + peach tones
+            particleColors={["#FFFFFF", "#A0E9FF", "#FFB4A2"]} 
             particleBaseSize={80}
             alphaParticles={true}
             moveParticlesOnHover={false}
@@ -43,6 +43,8 @@ export default function RootLayout({ children }) {
 
         {/* Foreground Content */}
             <div className="relative z-10 flex flex-col min-h-screen flex-1">
+
+              
               <Header />
           {children}
               <Footer />
