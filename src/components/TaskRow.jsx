@@ -87,7 +87,10 @@ export default function TaskRow({ task, updateTask, deleteTask }) {
       </td>
 
       {/* Created At */}
-      <td className="p-3 text-gray-400">{task.created_at}</td>
+      <td className="p-3 text-gray-400">
+        {task.created_at?.split("T")[0]}
+      </td>
+
 
       {/* Actions */}
       <td className="p-3 text-center flex justify-center gap-3">

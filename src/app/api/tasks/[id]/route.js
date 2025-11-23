@@ -52,7 +52,9 @@ export async function DELETE(request, context) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (err) {
+  } 
+  
+  catch (err) {
     console.error("DELETE /api/tasks/[id] error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
