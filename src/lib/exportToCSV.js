@@ -1,5 +1,5 @@
 
-export function exportToCSV(tasks, filename = "tasks_export.csv") {
+export function exportToCSV(tasks, filename = "tasks_export") {
   if (!tasks || tasks.length === 0) {
     alert("No tasks to export!");
     return;
@@ -21,10 +21,10 @@ export function exportToCSV(tasks, filename = "tasks_export.csv") {
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement("a");
-  link.href = url;
+  link.href = url;   // Set the link’s href to Blob URL
   link.setAttribute(
     "download",
-    `${filename.replace(".csv", "")}_${new Date().toISOString().split("T")[0]}.csv`
+    `${filename}_${new Date().toISOString().split("T")[0]}.csv`
   );
   document.body.appendChild(link);
   link.click();

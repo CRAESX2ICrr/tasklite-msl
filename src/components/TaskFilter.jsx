@@ -67,6 +67,8 @@ export default function TaskFilter() {
         >
           <option value="newest">Newest</option>
           <option value="oldest">Oldest</option>
+          <option value="title_asc">A - Z (Title)</option>
+          <option value="title_desc">Z - A (Title)</option>
         </select>
 
         <div className="flex gap-2">

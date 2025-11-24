@@ -28,8 +28,26 @@ export async function GET(request) {
     }
 
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
-    const order = sort === "oldest" ? "ASC" : "DESC";
-    const sql = `SELECT * FROM tasks ${where} ORDER BY id ${order}`;
+
+    // Sorting
+    let orderBy = "id";
+    let orderDirection = "DESC";
+
+    if (sort === "oldest") {
+      orderDirection = "ASC";
+    }
+
+    if (sort === "title_asc") {
+      orderBy = "title";
+      orderDirection = "ASC";
+    }
+
+    if (sort === "title_desc") {
+      orderBy = "title";
+      orderDirection = "DESC";
+    }
+
+    const sql = `SELECT * FROM tasks ${where} ORDER BY ${orderBy} ${orderDirection}`;
 
     const [rows] = await query(sql, params);
     return NextResponse.json({ tasks: rows });
@@ -38,6 +56,7 @@ export async function GET(request) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
+
 
 // POST — Add a new task
 export async function POST(request) {
