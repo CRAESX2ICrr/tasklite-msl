@@ -47,7 +47,15 @@ export async function GET(request) {
       orderDirection = "DESC";
     }
 
-    const sql = `SELECT * FROM tasks ${where} ORDER BY ${orderBy} ${orderDirection}`;
+    //const sql = `SELECT * FROM tasks ${where} ORDER BY ${orderBy} ${orderDirection}`;
+    const sql = `
+      SELECT * FROM tasks 
+      ${where}
+      ORDER BY 
+        (status = 'Done') ASC,
+        ${orderBy} ${orderDirection}
+    `;
+
 
     const [rows] = await query(sql, params);
     return NextResponse.json({ tasks: rows });

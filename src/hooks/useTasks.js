@@ -49,7 +49,7 @@ async function updateTask(id, updates) {
       description: current.description,
       priority: current.priority,
       status: current.status,
-      ...updates,                                         // override only fields that changed
+      ...updates,
     };
 
     const res = await fetch(`/api/tasks/${id}`, {
@@ -68,9 +68,7 @@ async function updateTask(id, updates) {
 
     if (!res.ok) throw new Error(json.error || text || "Update failed");
 
-    setTasks(prev =>
-      prev.map(t => (t.id === id ? json.task || { ...t, ...payload } : t))
-    );
+    await loadTasks();                                      // reload full task
 
     return true;
   } catch (err) {
@@ -79,6 +77,7 @@ async function updateTask(id, updates) {
     return false;
   }
 }
+
 
   //
   // Delete task
