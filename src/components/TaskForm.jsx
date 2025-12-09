@@ -10,7 +10,7 @@ export default function TaskForm() {
     e.preventDefault();
     if (!title.trim()) return alert("Task title required");
 
-    try {
+    try {                                                                     //send a POST request to our API route /api/tasks
       const res = await fetch("/api/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

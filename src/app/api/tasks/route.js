@@ -1,17 +1,17 @@
 
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";                                           //return JSON responses from API routes
 import { query } from "@/lib/db";
 
 // GET — List all tasks
 export async function GET(request) {
   try {
-    const url = new URL(request.url);
+    const url = new URL(request.url);                                                 // conv incoming HTP req URL into a URL obj so read parameters
     const q = url.searchParams.get("q")?.trim();
     const status = url.searchParams.get("status");
     const priority = url.searchParams.get("priority");
     const sort = url.searchParams.get("sort") || "newest";
 
-    const conditions = [];
+    const conditions = [];                                                            //Prep WHERE parts + parameter array
     const params = [];
 
     if (q) {
@@ -53,12 +53,11 @@ export async function GET(request) {
       ${where}
       ORDER BY 
         (status = 'Done') ASC,
-        ${orderBy} ${orderDirection}
-    `;
+        ${orderBy} ${orderDirection}`;
 
 
-    const [rows] = await query(sql, params);
-    return NextResponse.json({ tasks: rows });
+    const [rows] = await query(sql, params);                                            // returns an array: [rows, fields].
+    return NextResponse.json({ tasks: rows });                                          // rows back to the frontend as JSON under the "tasks" key. // NextResponse.json formats the data into a proper HTTP JSON response.
   } catch (err) {
     console.error("GET /tasks error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });

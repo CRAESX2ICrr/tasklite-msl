@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { exportToCSV } from "@/lib/exportToCSV";
 
 export function useTasks() {
-  const [tasks, setTasks] = useState([]);             //store list  of tsk mem, func-change tsk. reac st var
+  const [tasks, setTasks] = useState([]);                                 //store list of tsk mem, func-change tsk. reac st var
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -23,12 +23,14 @@ export function useTasks() {
       if (filters.sort) params.set("sort", filters.sort);
 
       const url = "/api/tasks" + (params.toString() ? `?${params}` : "");
-      const res = await fetch(url);                                               //fet tsk from backend
+      const res = await fetch(url);                                                   //fet tsk from backend
       if (!res.ok) throw new Error(`Failed to fetch tasks (${res.status})`);
 
-      const data = await res.json();                                              //parse json resp
-      setTasks(data.tasks || []);                                                 //upd state w/ fecthd tsk
-    } catch (err) {
+      const data = await res.json();                                                  //parse json resp
+      setTasks(data.tasks || []);                                                     //upd state w/ fecthd tsk
+    } 
+    
+    catch (err) {
       console.error("Error loading tasks:", err);
       setError(err.message);
     } finally {
@@ -68,7 +70,7 @@ async function updateTask(id, updates) {
 
     if (!res.ok) throw new Error(json.error || text || "Update failed");
 
-    await loadTasks();                                      // reload full task
+    await loadTasks();                                                        // reload full task
 
     return true;
   } catch (err) {

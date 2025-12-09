@@ -38,7 +38,7 @@ export async function PUT(request, context) {
 export async function DELETE(request, context) {
   try {
     
-    const { id } = await context.params;
+    const { id } = await context.params;                                                            // get id from url
     console.log("DELETE /api/tasks/[id] id:", id);
 
     if (!id) {
@@ -56,6 +56,6 @@ export async function DELETE(request, context) {
   
   catch (err) {
     console.error("DELETE /api/tasks/[id] error:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: err.message }, { status: 500 });                            //internal Ser Err
   }
 }
